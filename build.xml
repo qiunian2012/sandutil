@@ -1,0 +1,67 @@
+<!--
+ Ant build file for generating sandutil.jar
+-->
+<project name="SandUtil" default="packall" basedir=".">
+	<property name="dist.path" location="dist"/>
+	<property name="eclipse.build" location="bin"/>
+	<property name="source.path" location="src"></property>
+	<property name="lib.path" location="lib"></property>
+	
+	<path id="javac.classpath">
+	    <dirset dir=".">
+	      <include name="bin"/>
+	    </dirset>
+		<fileset dir="${lib.path}">
+			<include name="**/*.jar"/>
+			<include name="**/*.zip"/>
+	    </fileset>
+	</path>
+	
+	<!--clean the old file -->
+	<target name="cleanold">
+			<delete>
+				<fileset dir="${dist.path}" includes="*" />
+			</delete>
+			<echo level="info">delete sandutil.jar...</echo>
+	</target>
+	
+<!--
+	<target name="clean" depends="cleanold">
+	  <delete>
+	  	<fileset dir="${eclipse.build}" includes="**/*"></fileset>
+	  </delete>
+	</target>
+	
+	<target name="complie" depends="clean">
+			 <javac srcdir="${source.path}" destdir="${eclipse.build}" debug="on"
+			 	deprecation="off" compiler="javac1.5" classpathref="javac.classpath" encoding="GBK">
+			 </javac>
+		    <copy todir="${eclipse.build}" overwrite="true">
+		    	 <fileset dir="${source.path}">
+		    	    <include name="**/*.jpg"/>
+		    	 	<include name="**/*.gif"/>
+		    	 	<include name="**/*.conf"/>
+		    	 	<include name="**/*.xml"/>
+		    	 	<include name="**/*.properties"/>
+		    	 	<include name="**/message*"/>
+		    	 	<include name="**/keystore"/>
+		    	 </fileset>
+		    </copy>
+	</target>
+	-->
+	<target name="generatejar" description="generate sandutil.jar" depends="cleanold">
+		<jar jarfile="${dist.path}/sandutil.jar">
+		    <fileset dir="${eclipse.build}">
+		    	<!--不打包配置文件到jar包中
+		    		<exclude name="**/*.conf"/>
+		    		<exclude name="**/*.xml"/>
+		    		<exclude name="**/*.properties"/>
+		    	-->
+		    </fileset>
+		</jar>
+	</target>	
+	
+	<target name="packall" depends="generatejar">
+		
+	</target>
+</project>
